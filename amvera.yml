@@ -1,0 +1,11 @@
+meta:
+  environment: python
+  toolchain:
+    name: pip
+    version: "3.8"
+build:
+  requirementsPath: requirements.txt
+run:
+  command: cd shedule && gunicorn -k unicorn.workers.UnicornWorker shedule.asgi:application --env DJANGO_SETTINGS_MODULE=shedule.settings --bind 0.0.0.0:80
+  persistenceMount: /data
+  containerPort: 8000
