@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+Выбор мультисайта
+{% endblock %}
+
+{% block content %}
+
+<div class="body_double">
+<h1> Выбор мультисайта </h1>
+    <br><br>
+        <div class="container_double">
+           <div>
+        <a href="{% url 'judge_double_menu' %}"><button
+                class="btn btn-primary btn-lg btn-block"><i
+                class="bi bi-layout-split"></i>  Открыть два окна
+            судебных заседаний </button></a> <br> <br>
+        </div> <div> <a href="{% url 'site_double_menu' %}"><button
+                       class="btn btn-secondary btn-lg btn-block"> <i
+                class="bi bi-layout-split"></i>  Открыть
+            два окна сайтов
+         </button></a></div>
+</div>
+{% endblock %}

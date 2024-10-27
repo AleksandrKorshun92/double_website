@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Выбор мультисайта суда
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<h2> Выбор мультисайта - судебных кабинетов </h2>
+         <form action="{% url 'judge_double_menu' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-warning"
+               value="Перейти к кабинетам">
+
+             <a href="{% url 'add_judge' %}" class ='button-judge'><button
+                     type="button" class="btn btn-success"> <i
+                     class="bi bi-plus-square-dotted"></i>  Добавить судью
+                 (кабинет)
+         </button></a> <br>
+         </form>
+
+
+    {% if message %}
+        <div style="color: #a11717;"> <h1><b> {{ message }} </b>  </h1></div>
+    {% endif %}
+{% endblock %}

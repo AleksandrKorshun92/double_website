@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+Выбор мультисайта сайтов
+{% endblock %}
+
+{% block content %}
+
+<h2> Выбор мультисайта - сайтов </h2>
+         <form action="{% url 'site_double_menu' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+             <input type="submit" class="btn btn-warning"
+               value="Перейти к сайтам">
+
+             <a href="{% url 'add_site' %}" class ='button-judge'><button
+                     type="button" class="btn btn-success"> <i
+                     class="bi bi-plus-square-dotted"></i>  Добавить сайт
+         </button></a> <br>
+         </form>
+            {% if message %}
+        <div style="color: #a11717;"> <h1><b> {{ message }} </b>  </h1></div>
+    {% endif %}
+{% endblock %}

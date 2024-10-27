@@ -1,0 +1,183 @@
+body {
+    background: #876ED7;
+    display: flex;
+}
+
+.logo-small {
+  width: 250px;
+  float: left;
+
+}
+
+aside {
+    display: flex;
+    float: left;
+    background-color: rgba(12, 9, 40, 1);
+    width:20%;
+    padding: 2.5%;
+    height: 100%;
+    color: #fff;
+    border-right: 5px solid #4d4d4d;
+}
+
+aside .logo {
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: bold;
+    position: relative;
+    top: -5px;
+}
+
+aside h3 {
+    margin-top: 50px;
+    font-size: 28px;
+}
+
+aside ul { list-style:none;
+ }
+
+aside ul li {
+    color: #fff;
+    display:blok;
+    margin-top:20px;
+    transition: all .6s ease;
+}
+
+aside ul li:hover,  aside ul a:hover{
+color: #eb5959;
+text-decoration: none;
+transform: scale(1.25);
+}
+
+main .features {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    color: #fff;
+    margin-top:20px;
+    width: 75%;
+
+}
+add_judge{
+ width: 100%
+}
+
+main. .form-check-input {
+    width: 100%; /* Устанавливаем ширину в 100% */
+    margin-right: 0; /* Убираем отступы справа */
+}
+
+
+
+
+
+
+
+
+
+html, body {
+        background: #876ED7;
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between; /* Размещает элементы по краям */
+    align-items: flex-start; /* Выравнивание элементов по верхнему краю */
+    height: 100vh;
+    width: 100vw; /* Ширина контейнера равна ширине окна браузера */
+    padding: 10px; /* Отступы от краев */
+    box-sizing: border-box;
+}
+
+.logo-small {
+  width: 250px;
+  float: left;
+
+}
+
+.left-side {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: rgba(12, 9, 40, 1);
+    color: #fff;
+    border-right: 5px solid #4d4d4d;
+}
+
+.right-side {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+
+aside .logo {
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: bold;
+    position: relative;
+    top: -5px;
+}
+
+aside h3 {
+    margin-top: 50px;
+    font-size: 28px;
+}
+
+aside ul { list-style:none;
+ }
+
+aside ul li {
+    color: #fff;
+    margin-top:20px;
+    transition: all .6s ease;
+}
+
+aside ul li:hover,  aside ul a:hover{
+color: #eb5959;
+text-decoration: none;
+transform: scale(1.25);
+}
+
+
+main .features {
+    padding-top: var(--header-height);
+
+    color: #fff;
+}
+
+main .features h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main .features h3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main .features .add_judge {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+main .features .add_judge .form-check-input{
+display: flex;
+margin: 40px;
+flex-direction: column;
+    align-items: center;
+        margin-top: 20px;
+}
+
+iframe {
+display: flex;
+width: 50vw;
+height: 100vh;
+}
+
+ <ul class="hammer-list"> <a href="https://schedule.arbitr.ru/Schedule/Operator/?courtTag=SPB&cabinetName= {{ judge.cabinet }}"><li><i class="fa-regular fa-house"></i>{{ judge }}

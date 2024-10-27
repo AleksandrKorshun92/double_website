@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+Добавление сайта
+{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1> Добавление сайта </h1></b>
+    <h3> {{ message }} </h3>
+    <div class="add_judge">
+    <form method="post">
+
+    {% csrf_token %} <br>
+    {{ form.title }} <br> <br>
+     {{ form.url }} <br>
+
+    <input type="submit" class="btn btn-success" value="Добавить">
+    </form>
+    </div>
+</div>
+
+
+{% endblock %}

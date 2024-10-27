@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Основное меню
+{% endblock %}
+
+{% block content %}
+
+<div class="body_home">
+<h1> Добро пожаловать на сайт
+    <h1>"Расписание судов на одной странице"</h1>
+</h1>
+    <div class="container_home">
+        <p>
+        Данный сайт предоставляет удобный и доступный онлайн-сервис, который позволяет вам
+        легко просматривать расписание судебных заседаний.</p>
+
+ <p>Сайт предоставляет возможность: </p>
+ <p> - Открывать и просматривать судебные заседания арбитражных судов по
+        Фамилии судьи.</p>
+ <p> - Открывать одновременно два окна судебных заседаний, чтобы следить за
+        движением дел.</p>
+ <p> - Открывать одновременно два окна любых сайтов.</p>
+ <p>
+Цель — сделать процесс доступа к информации о судебных заседаниях
+     максимально простым и удобным.</p>
+
+ <p>
+Сайт разработан с учетом пользовательского опыта, что обеспечивает интуитивно понятный интерфейс и быструю навигацию.
+</p>
+
+</h4>
+    </div>
+<div class="button_home" >
+    {% if user.is_authenticated %}
+   <div>
+        <a href="{% url 'profile' %}" class ='button-judge'> <button
+                     type="button" class="btn btn-success"> <i
+            class="bi bi-person-bounding-box"></i>  Посмотреть профиль  <i
+            class="bi bi-person-bounding-box"></i>
+         </button></a> <br>
+    </div>
+    {% else %}
+     <div> <a href="{% url 'login' %}" class
+            ='button-judge'>
+        <button
+                     type="button" class="btn btn-success"> <i class="bi bi-power"></i> Войти на сайт
+        <i class="bi bi-power"></i>
+         </button></a> <br>
+    </div>
+
+{% endif %}
+</div>
+{% endblock %}
