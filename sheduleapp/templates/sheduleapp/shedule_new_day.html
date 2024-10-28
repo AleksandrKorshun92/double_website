@@ -7,24 +7,21 @@
 {% block content %}
 
 {% load static %}
-        {% if judges %}
+{% if judges %}
         <h2>Расписание судей на {{ today }} </h2>
-    {% for judge in judges %}
         <h3> Выбирайте судью: </h3>
-        <h4>
-        <ul class="hammer-list"> <a href="{{ judge.url }}"><li><i
-                class="fa-regular fa-house"></i>{{ judge }}
+    {% for judge in judges %}
+        <ul class="hammer-list"> <a href="{{ judge.url }}"><li></i>{{ judge }}
         </li></a> </ul>
-            </h4>
     {% endfor %}
-        {% else %}
+{% else %}
        <h3> Сегодня {{ today }} все Ваши судьи отдыхают 🙈  <br> <br>
            </h3>
-            {% endif %}
         <div class="image-container-ac">
         <img src="{% static 'shedule/media/AC_end.png' %}"
              alt="AC_end"> <br>
         </div>
                <h4> <em>  p.s. Вам тоже лучше сегодня отдохнуть </em>
            </h4>
+            {% endif %}
 {% endblock %}
