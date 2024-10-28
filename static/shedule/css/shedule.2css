@@ -181,3 +181,16 @@ height: 100vh;
 }
 
  <ul class="hammer-list"> <a href="https://schedule.arbitr.ru/Schedule/Operator/?courtTag=SPB&cabinetName= {{ judge.cabinet }}"><li><i class="fa-regular fa-house"></i>{{ judge }}
+
+
+ meta:
+  environment: python
+  toolchain:
+    name: pip
+    version: "3.8"
+build:
+  requirementsPath: requirements.txt
+run:
+  command: cd shedule && gunicorn -k unicorn.workers.UnicornWorker shedule.asgi:application --env DJANGO_SETTINGS_MODULE=shedule.settings --bind 0.0.0.0:80
+  persistenceMount: /data
+  containerPort: 8000
