@@ -198,10 +198,10 @@ font-family: Arial, sans-serif; /* Шрифт для всего текста */
     display: flex;
      max-width: 100vw;
     max- height: 100vh;
-
     margin: 0 auto; /* Центрирование контейнера */
-    padding: 20px;
+    padding: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
 }
 
 
@@ -213,19 +213,22 @@ font-family: Arial, sans-serif; /* Шрифт для всего текста */
 .iframe-container {
     display: flex; /* Установка flex-контейнера для колоночной разметки */
     justify-content: space-between; /* Распределение пространства между iframe */
-    padding: 10px;
+    flex-wrap: nowrap;
+    width: 100vw;
+    height: 100vh;
 }
+
 
 iframe {
     flex: 1; /* Каждый iframe займет равное пространство */
-    margin: 0 10px; /* Отступы между iframe */
+    margin: 2px; /* Отступы между iframe */
+    width: 50vw; /* Ширина равна ширине окна браузера */
+    height: 90vh; /* Высота равна высоте окна браузера */
+    background-color: #f0f0f0; /* Цвет фона для примера */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none; /* Убираем границы */
     min-height: 400px; /* Минимальная высота iframe */
-    width: 60vw;
-height: 100vh;
 }
 
-display: flex;
-
-
-}

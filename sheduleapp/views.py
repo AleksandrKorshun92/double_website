@@ -63,6 +63,8 @@ def judge_full(request):
     today = date.today()
     dict_day = {0:"ПН", 1:"ВТ", 2:"СР", 3:"ЧТ", 4:"ПТ"}
     judges = Judges.objects.filter(day_name=dict_day.get(today.weekday()))
+    for j in judges:
+        print(j.url)
     context = {"judges": judges,
                'today': today}
     return render(request, 'sheduleapp/shedule_new_day.html', context)
