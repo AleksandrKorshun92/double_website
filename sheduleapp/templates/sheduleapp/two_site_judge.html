@@ -19,9 +19,10 @@
          </button></a> <br>
     <div class="container_multi">
 <div class="iframe-container" id="myTabContent">
-            {% for site in sites %}
-                <div class="tab-pane fade show active" id="{{ site.id }}" role="tabpanel" aria-labelledby="{{ site.id }}-tab">
-                    <iframe src="{{ site.url }}">
+            {% for judge in judges %}
+                <div class="tab-pane fade show active" id="{{ judge.id }}" role="tabpanel" aria-labelledby="{{ judge.id }}-tab">
+                    <iframe
+                            src="{{ judge.url }}&clientTime={{ time }}&cabinets={{ judge.cabinet }}">
                         Ваш браузер не поддерживает iframes.
                     </iframe>
                 </div>

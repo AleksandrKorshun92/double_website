@@ -12,7 +12,8 @@
         <h3> Выбирайте судью: </h3>
     {% for judge in judges %}
 
-        <ul class="hammer-list"> <a href="{{ judge.url }}"><li></i>{{ judge }}
+        <ul class="hammer-list"> <a
+                href="{{ judge.url }}&clientTime={{ time }}&cabinets={{ judge.cabinet }}"><li></i>{{ judge }}
         </li></a> </ul>
     {% endfor %}
 {% else %}

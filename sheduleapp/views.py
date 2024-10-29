@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
-from django.contrib import messages
+from datetime import datetime
+import urllib.parse
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -63,19 +64,25 @@ def judge_full(request):
     today = date.today()
     dict_day = {0:"ПН", 1:"ВТ", 2:"СР", 3:"ЧТ", 4:"ПТ"}
     judges = Judges.objects.filter(day_name=dict_day.get(today.weekday()))
-    for j in judges:
-        print(j.url)
+    now = datetime.now() # Преобразуем в нужный формат
+    date_time_str = now.strftime("%Y-%m-%dT%H:%M:%S") # Кодируем строку для URL
+    url_encoded_date_time = urllib.parse.quote(date_time_str)
     context = {"judges": judges,
-               'today': today}
+               'today': today,
+               'time': url_encoded_date_time}
     return render(request, 'sheduleapp/shedule_new_day.html', context)
 
 @login_required
 def two_site_judge(request, id):
     list_id = id.split('&')
     list_id=list(int(x) for x in list_id)
-    sites = Judges.objects.filter(pk__in=list_id)
-    context = {'sites': sites}
-    return render(request, 'sheduleapp/two_site.html', context)
+    judges = Judges.objects.filter(pk__in=list_id)
+    now = datetime.now() # Преобразуем в нужный формат
+    date_time_str = now.strftime("%Y-%m-%dT%H:%M:%S") # Кодируем строку для URL
+    url_encoded_date_time = urllib.parse.quote(date_time_str)
+    print(url_encoded_date_time)
+    context = {'judges': judges, 'time':url_encoded_date_time}
+    return render(request, 'sheduleapp/two_site_judge.html', context)
 
 @login_required
 def two_site(request, id):
