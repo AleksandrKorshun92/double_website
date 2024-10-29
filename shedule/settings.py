@@ -27,6 +27,13 @@ SECRET_KEY = 'django-insecure-2_vm0+0dw7a&db&ha3ru@cn1=c3jgi-t&%=um(oq)v$$uje4cp
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://shedule-korshunovay.amvera.io',
+    # Добавьте другие домены сюда, если необходимо
+]
+
 
 LOGIN_URL = '/login/'
 
