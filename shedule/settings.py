@@ -33,7 +33,7 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://shedule-korshunovay.amvera.io',
+    'https://shedul-korshunovay.amvera.io',
     # Добавьте другие домены сюда, если необходимо
 ]
 
@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'start',
     'sheduleapp',
 ]
 
