@@ -1,16 +1,20 @@
-import datetime
+"""
+Определяем основные формы проекта (сайта):
+- форма по добавлению судьи
+- форма по добавлению сайта
+- форма регистрации пользователя
+- форма для просмотра двух расписаний судей
+- форма для просмотра двух сайтов
+"""
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-
 from django import forms
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.forms import DateInput
+import datetime
+from .models import Judges, Site
 
-from .models import Judges, Site, Profile
-
-
+#форма по добавлению судьи в БД
 class JudgeFrom(forms.Form):
     arbitration_court = forms.ChoiceField(choices=
                                           [('АС СПб', 'Арбитражный суд Санкт-Петербурга и Ленинградской области'),
@@ -29,7 +33,7 @@ class JudgeFrom(forms.Form):
                                            ('Пт', 'Пятница')
                                            ])
 
-
+#форма по добавлению сайта в БД
 class SiteFrom(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control",
                                                  "placeholder":" Напишите  "
@@ -40,7 +44,7 @@ class SiteFrom(forms.Form):
                                                       "адрес (URL) сайта"}))
 
 
-
+#форма для регистрации пользователя в БД
 class UserRegistrationForm(UserCreationForm):
     birth_date = forms.DateField(initial=datetime.date.today,
                                  widget=forms.DateInput(
@@ -71,7 +75,7 @@ class UserRegistrationForm(UserCreationForm):
             raise ValidationError("Пароли не совпадают.")
         return cleaned_data
 
-
+#форма выбора расписания судьи
 class JudgeMenu(forms.Form):
     choices = forms.ModelMultipleChoiceField(queryset=Judges.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -84,6 +88,8 @@ class JudgeMenu(forms.Form):
                 "Пожалуйста, выберите ровно два варианта.")
         return selected_choices
 
+
+#форма для выбора сайта
 class SiteMenu(forms.Form):
     choices = forms.ModelMultipleChoiceField(queryset=Site.objects.all(),
         widget=forms.CheckboxSelectMultiple,

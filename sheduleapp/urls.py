@@ -7,6 +7,7 @@ from .views import (add_judge, judge_full, two_site_judge, double_menu, home,
 
 
 urlpatterns = [
+path('', home, name='home'),
 path('add_judge/', add_judge, name='add_judge'),
 path('add_site/', add_site, name='add_site'),
 path('judge/', judge_full, name='judge_full'),
@@ -15,7 +16,6 @@ path('site/<str:id>/', two_site, name='two_site'),
 path('double_menu/', double_menu, name='double_menu'),
 path('judge_double_menu/', judge_double_menu, name='judge_double_menu'),
 path('site_double_menu/', site_double_menu, name='site_double_menu'),
-path('', home, name='home'),
 path('profile/', profile_view, name='profile'),
 path('register/', register, name='register'),
 path('login/', login_view, name='login'),
