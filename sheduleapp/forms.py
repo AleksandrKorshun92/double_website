@@ -100,10 +100,17 @@ class JudgeMenu(forms.Form):
 
 #форма для выбора сайта
 class SiteMenu(forms.Form):
-    choices = forms.ModelMultipleChoiceField(queryset=Site.objects.all(),
+    choices = forms.ModelMultipleChoiceField(
+        queryset=Site.objects.none(),  # Изначально пустой queryset
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
+
+    def __init__(self, user=None, *args, **kwargs):
+        super(SiteMenu, self).__init__(*args, **kwargs)
+        if user is not None:
+            # Фильтруем судей по текущему пользователю
+            self.fields['choices'].queryset = Site.objects.filter(user=user)
 
     def clean_options(self):
         selected_choices = self.cleaned_data['choices']
