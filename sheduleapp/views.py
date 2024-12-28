@@ -120,16 +120,20 @@ def judge_full(request):
                'time': url_encoded_date_time}
     return render(request, 'sheduleapp/shedule_new_day.html', context)
 
+
 # вывод меню для выбора открытие сайтов или расписаний
 @login_required
 def double_menu(request):
     return render(request, 'sheduleapp/double_menu.html')
 
+
 # вывод всех судей, которые есть в БД для открытия двух окон одновременно
 @login_required
 def two_site_judge(request, id):
-    list_id = id.split('&')
-    list_id=list(int(x) for x in list_id)
+    # Разбиваем строку id на список целых чисел
+    list_id = map(int, id.split('&'))
+
+    # Получаем судей, соответствующих указанным ID и текущему пользователю
     judges = Judges.objects.filter(pk__in=list_id)
     now = datetime.now() # Преобразуем в нужный формат
     date_time_str = now.strftime("%Y-%m-%dT%H:%M:%S") # Кодируем строку для URL
