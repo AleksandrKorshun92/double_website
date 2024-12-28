@@ -1,15 +1,9 @@
-"""
-МОдели проекта (сайта):
-- модель судьи
-- модель сайта
-- модель пользователя
-"""
-
-
 from django.db import models
 from django.contrib.auth.models import User
 
 class Judges(models.Model):
+    """Основная модель судей, с привязкой к определенному пользователю """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     arbitration_court = models.CharField(max_length=100)
     name = models.CharField(max_length=50)
     day_name = models.CharField(max_length=100)
@@ -21,6 +15,8 @@ class Judges(models.Model):
 
 
 class Site(models.Model):
+    """Основная модель сайтов, с привязкой к определенному пользователю """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     url = models.URLField()
     title = models.CharField(max_length=255)
 
