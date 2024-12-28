@@ -73,9 +73,16 @@ def add_judge(request):
             else:
                 url = (f'https://schedule.arbitr.ru/Schedule/Operator'
                        f'/?courtTag=13AAS&cabinetName={cabinet}')
-            judge = Judges(arbitration_court= arbitration_court, name=name,
-                        cabinet=cabinet, day_name=day_name, url=url)
-            judge.save()
+
+            # привязка судьи к конкретному пользователю
+
+            judge = Judges.objects.create(user=request.user,
+                           arbitration_court= arbitration_court,
+                           name=name,
+                           cabinet=cabinet,
+                           day_name=day_name,
+                           url=url)
+            # judge.save()
             messages.success(request, 'Судья успешно добавлен!')
             return redirect('add_judge')  # Переадресация на ту же страницу
     else:
