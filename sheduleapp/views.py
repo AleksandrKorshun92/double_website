@@ -152,11 +152,11 @@ def two_site(request, id):
 @login_required
 def judge_double_menu(request):
     if request.method == 'POST':
+        form = JudgeMenu(user=request.user, data=request.POST)  # Передаем пользователя в форму
         message = ""
-        form = JudgeMenu(request.POST)
         if form.is_valid():
             selected_choices = form.cleaned_data['choices']
-            if len(selected_choices) >2:
+            if len(selected_choices) != 2:
                 message = "Пожалуйста, выберите ровно два варианта."
             else:
                 # Преобразуем объекты в список идентификаторов
@@ -166,7 +166,7 @@ def judge_double_menu(request):
                 # Переходим на новый сайт с параметрами
                 return redirect('two_site_judge', id=params)
     else:
-        form = JudgeMenu()
+        form = JudgeMenu(user=request.user)  # Передаем пользователя в форму
         message = ""
     return render(request, 'sheduleapp/double_menu_judge.html', {'form':form,
                                                         "message": message})
