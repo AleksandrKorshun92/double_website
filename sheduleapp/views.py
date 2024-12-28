@@ -101,8 +101,8 @@ def add_site(request):
         if form.is_valid():
             title = form.cleaned_data["title"]
             url = form.cleaned_data["url"]
-            site = Site(title= title, url=url)
-            site.save()
+            site = Site.objects.create(user=request.user,title= title, url=url)
+            # site.save()
             messages.success(request, 'Сайт успешно добавлен!')
             return redirect('add_site')  # Переадресация на ту же страницу
     else:
