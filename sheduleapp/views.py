@@ -186,8 +186,9 @@ def judge_double_menu(request):
 @login_required
 def site_double_menu(request):
     if request.method == 'POST':
+        form = SiteMenu(user=request.user,
+                         data=request.POST)
         message = ""
-        form = SiteMenu(request.POST)
         if form.is_valid():
             selected_choices = form.cleaned_data['choices']
             if len(selected_choices) >2:
@@ -200,7 +201,7 @@ def site_double_menu(request):
                 # Переходим на новый сайт с параметрами
                 return redirect('two_site', id=params)
     else:
-        form = SiteMenu()
+        form = SiteMenu(user=request.user)
         message = ""
     return render(request, 'sheduleapp/double_menu_site.html', {'form':form,
                                                         "message": message})
