@@ -77,16 +77,25 @@ class UserRegistrationForm(UserCreationForm):
 
 #форма выбора расписания судьи
 class JudgeMenu(forms.Form):
-    choices = forms.ModelMultipleChoiceField(queryset=Judges.objects.all(),
+    choices = forms.ModelMultipleChoiceField(
+        queryset=Judges.objects.none(),  # Изначально пустой queryset
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
+
+    def __init__(self, user=None, *args, **kwargs):
+        super(JudgeMenu, self).__init__(*args, **kwargs)
+        if user is not None:
+            # Фильтруем судей по текущему пользователю
+            self.fields['choices'].queryset = Judges.objects.filter(user=user)
+
     def clean_options(self):
         selected_choices = self.cleaned_data['choices']
         if len(selected_choices) > 1:
             raise forms.ValidationError(
                 "Пожалуйста, выберите ровно два варианта.")
         return selected_choices
+
 
 
 #форма для выбора сайта
