@@ -12,7 +12,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.core.exceptions import ValidationError
 import datetime
-from .models import Judges, Site
+from .models import Judges, Site, Case
 
 #форма по добавлению судьи в БД
 class JudgeFrom(forms.Form):
@@ -37,12 +37,51 @@ class JudgeFrom(forms.Form):
 class SiteFrom(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control",
                                                  "placeholder":" Напишите  "
-                                                      "Названия сайта"}))
+                                                      "названия сайта"}))
     url = forms.URLField(widget=forms.TextInput(attrs={"class":
                                                             "form-control",
                                                  "placeholder":" Напишите  "
                                                       "адрес (URL) сайта"}))
 
+
+#форма по добавлению дела
+class CaseForm(forms.ModelForm):
+    class Meta:
+        model = Case
+        fields =['number','court', 'court', 'costumer', 'costumer_status', 'other_costumer', 
+                 'event', 'event_date', 'description_case', 'case_activ'] 
+        labels = {
+            'number': 'Номер дела',
+            'court': 'Суд',
+            'costumer': 'Заказчик',
+            'costumer_status': 'Роль заказчика',
+            'other_costumer': 'Другая сторона',
+            'event': 'Событие',
+            'event_date': 'Дата события',
+            'description_case': 'Описание дела',
+            'case_activ': 'Статус дела',
+        }
+        widgets = {
+            'number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите номер дела'}),
+            'court': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите название суда'}),
+            'costumer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите заказчика'}),
+            'costumer_status': forms.Select(choices=[('Истец', 'Истец'), ('Ответчик', 'Ответчик')]),
+            'other_costumer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите другую сторону'}),
+            'event': forms.Select(choices=[
+                ('Претензия', 'Претензия'),
+                ('Иск', 'Иск'),
+                ('Отзыв', 'Отзыв'),
+                ('Возражение', 'Возражение'),
+                ('Судебное заседание', 'Судебное заседание'),
+                ('Апелляционая жалоба', 'Апелляционая жалоба'),
+                ('Кассационная жалоба', 'Кассационная жалоба'),
+                ('Судебные расходы', 'Судебные расходы'),
+                ('Иное', 'Иное')
+            ]),
+            'event_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Напишите дату и время события'}),
+            'description_case': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Напишите короткую информацию и план по делу'}),
+            'case_activ': forms.Select(choices=[('Активное', 'Активное'), ('Архив', 'Архив')])
+        }
 
 #форма для регистрации пользователя в БД
 class UserRegistrationForm(UserCreationForm):
@@ -75,7 +114,8 @@ class UserRegistrationForm(UserCreationForm):
             raise ValidationError("Пароли не совпадают.")
         return cleaned_data
 
-#форма выбора расписания судьи
+
+#форма для выбора кабинета судьи
 class JudgeMenu(forms.Form):
     choices = forms.ModelMultipleChoiceField(
         queryset=Judges.objects.none(),  # Изначально пустой queryset
@@ -88,13 +128,6 @@ class JudgeMenu(forms.Form):
         if user is not None:
             # Фильтруем судей по текущему пользователю
             self.fields['choices'].queryset = Judges.objects.filter(user=user)
-
-    def clean_options(self):
-        selected_choices = self.cleaned_data['choices']
-        if len(selected_choices) > 1:
-            raise forms.ValidationError(
-                "Пожалуйста, выберите ровно два варианта.")
-        return selected_choices
 
 
 
@@ -111,10 +144,3 @@ class SiteMenu(forms.Form):
         if user is not None:
             # Фильтруем судей по текущему пользователю
             self.fields['choices'].queryset = Site.objects.filter(user=user)
-
-    def clean_options(self):
-        selected_choices = self.cleaned_data['choices']
-        if len(selected_choices) > 1:
-            raise forms.ValidationError(
-                "Пожалуйста, выберите ровно два варианта.")
-        return selected_choices
