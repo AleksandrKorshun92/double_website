@@ -112,6 +112,94 @@ def add_site(request):
     return render(request, 'sheduleapp/site_form.html', {'form':form,
                                                         "message": message})
 
+@login_required
+def add_case(request):
+    if request.method == 'POST':
+        form = CaseForm(request.POST)
+        if form.is_valid():
+            new_case = form.save(commit=False)  # Не сохранять сразу, чтобы можно было добавить пользователя
+            new_case.user = request.user  # Автоматически устанавливаем текущего пользователя
+            new_case.save()  # Теперь сохраняем запись
+            return redirect('home')  # Переходим на главную страницу после успешного сохранения
+    else:
+        form = CaseForm()
+    context = {'form': form}
+    return render(request, 'sheduleapp/case_add.html', context)
+
+
+
+
+
+# вывод всех дел, которые будут в ближайшее время
+@login_required
+def case_all_activ(request, status=None):
+    today = date.today()
+    # Получаем дату послезавтра и послепослезавтра
+    tomorrow = today + timedelta(days=1)
+    day_after_tomorrow = today + timedelta(days=2)
+    
+    if status == 'active':
+        cases = Case.objects.filter(case_activ='Активное', user=request.user)
+        return render(request, 'sheduleapp/cases_activ_and_archiv.html', 
+                      {"cases": cases, 'status':status})
+    elif status == 'archive':
+        cases = Case.objects.filter(case_activ='Архив', user=request.user)
+        return render(request, 'sheduleapp/cases_activ_and_archiv.html', 
+                      {"cases": cases, 'status':status})
+    else:
+        cases_today = Case.objects.filter(case_activ='Активное', event_date=today, user=request.user) 
+        cases_tomorrow = Case.objects.filter(case_activ='Активное', event_date=tomorrow, user=request.user) 
+        cases_day_after_tomorrow = Case.objects.filter(case_activ='Активное', event_date=day_after_tomorrow, user=request.user) 
+        context = {
+            'cases_today': cases_today,
+            'cases_tomorrow': cases_tomorrow,
+            'cases_day_after_tomorrow': cases_day_after_tomorrow,
+            'today': today,
+            'tomorrow': tomorrow,
+            'day_after_tomorrow': day_after_tomorrow
+        }
+        return render(request, 'sheduleapp/case_user_activ.html', context)
+
+
+# переход на конрекное дело
+@login_required
+def case_detail(request, case_number):
+    case_detail = get_object_or_404(Case, number=case_number)
+    context = {
+        'case': case_detail
+    }
+    return render(request, 'sheduleapp/case_detail.html', context)
+
+
+# Представление для удаления дела
+@login_required
+def delete_case(request, pk):
+    case = get_object_or_404(Case, pk=pk)
+    if request.method == 'POST':
+        case.delete()
+        return redirect('home')  # Переход на главную страницу после удаления
+    context = {'case': case}
+    return render(request, 'sheduleapp/case_confirm_delete.html', context)
+
+
+# Представление для редактирования дела
+@login_required
+def edit_case(request, pk):
+    case = get_object_or_404(Case, pk=pk)
+    form = CaseForm(instance=case)
+    
+    if request.method == 'POST':
+        form = CaseForm(request.POST, instance=case)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    
+    context = {
+        'form': form,
+        'case': case,
+    }
+    return render(request, 'sheduleapp/case_edit_form.html', context)
+
 
 # вывод всех судей, которые рассматривают дела сегодня
 @login_required
