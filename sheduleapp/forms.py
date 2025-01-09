@@ -45,40 +45,69 @@ class SiteFrom(forms.Form):
 
 
 #форма по добавлению дела
+class SiteFrom(forms.Form):
+    title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control",
+                                                 "placeholder":" Напишите  "
+                                                      "названия сайта"}))
+    url = forms.URLField(widget=forms.TextInput(attrs={"class":
+                                                            "form-control",
+                                                 "placeholder":" Напишите  "
+                                                      "адрес (URL) сайта"}))
+
+
+#форма по добавлению дела
 class CaseForm(forms.ModelForm):
+    custom_event = forms.CharField(required=False, label='Введите ваше событие', 
+                                   widget=forms.TextInput(attrs={
+                                       'class': 'form-control', 
+                                       'placeholder': 'Напишите ваше событие',
+                                       'id': 'id_custom_event'  # добавляем ID для доступа через JS
+                                   }))
+    
+          
     class Meta:
         model = Case
-        fields =['number','court', 'court', 'costumer', 'costumer_status', 'other_costumer', 
-                 'event', 'event_date', 'description_case', 'case_activ'] 
+        fields =['number', 'url_case', 'court', 'item_case', 'costumer', 'costumer_status', 'other_costumer', 
+                 'event', 'event_date', 'court_date', 'description_case', 'target_date', 
+                 'case_activ'] 
         labels = {
             'number': 'Номер дела',
+            'url_case': "Ссылка на дела",
             'court': 'Суд',
+            "item_case": "Предмет спора",
             'costumer': 'Заказчик',
             'costumer_status': 'Роль заказчика',
             'other_costumer': 'Другая сторона',
-            'event': 'Событие',
-            'event_date': 'Дата события',
+            'event': 'Задача',
+            'event_date': 'Срок для выполнения задачи',
+            'court_date': 'Дата судебного заседания',
+            'target_date': "Контрольная дата",
             'description_case': 'Описание дела',
             'case_activ': 'Статус дела',
         }
         widgets = {
             'number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите номер дела'}),
+            'url_case': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Напишите ссылку на дело'}),
             'court': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите название суда'}),
+            "item_case": forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите предмета спора'}),
             'costumer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите заказчика'}),
             'costumer_status': forms.Select(choices=[('Истец', 'Истец'), ('Ответчик', 'Ответчик')]),
             'other_costumer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напишите другую сторону'}),
             'event': forms.Select(choices=[
-                ('Претензия', 'Претензия'),
-                ('Иск', 'Иск'),
-                ('Отзыв', 'Отзыв'),
-                ('Возражение', 'Возражение'),
-                ('Судебное заседание', 'Судебное заседание'),
-                ('Апелляционая жалоба', 'Апелляционая жалоба'),
-                ('Кассационная жалоба', 'Кассационная жалоба'),
-                ('Судебные расходы', 'Судебные расходы'),
+                ('', '---------'),
+                ('Подготовить Претензию', 'Претензия'),
+                ('Подать Иск', 'Иск'),
+                ('Подготовить Отзыв', 'Отзыв'),
+                ('Подготовить Возражение', 'Возражение'),
+                ('Принять участие в судебном заседании', 'Судебное заседание'),
+                ('Подать Апелляционую жалобу', 'Апелляционая жалоба'),
+                ('Подать Кассационную жалобу', 'Кассационная жалоба'),
+                ('Подать Судебные расходы', 'Судебные расходы'),
                 ('Иное', 'Иное')
-            ]),
+            ], attrs={'onchange': 'toggleCustomEvent(this)', 'id': 'id_event'}),  # добавляем обработчик события change),
             'event_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Напишите дату и время события'}),
+           'court_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Напишите дату и время судебного заседания'}),
+            'target_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Напишите контрольную дату'}),
             'description_case': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Напишите короткую информацию и план по делу'}),
             'case_activ': forms.Select(choices=[('Активное', 'Активное'), ('Архив', 'Архив')])
         }
