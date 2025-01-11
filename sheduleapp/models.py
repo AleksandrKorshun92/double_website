@@ -31,12 +31,13 @@ class Case(models.Model):
     costumer_status = models.CharField(max_length=40)
     other_costumer = models.CharField(max_length=40)
     event = models.CharField(max_length=40)
-    event_date = models.DateTimeField(null=True, blank=True)
+    event_date = models.DateField(null=True, blank=True)
     description_case = models.TextField(null=True, blank=True)
+    court_date = models.DateTimeField(null=True, blank=True)
     case_activ = models.CharField(max_length=20)
     item_case = models.CharField(max_length=50)
     url_case = models.URLField(null=True, blank=True)
-    target_date = models.DateTimeField(null=True, blank=True)
+    target_date = models.DateField(null=True, blank=True)
     
 
 class Profile(models.Model):
