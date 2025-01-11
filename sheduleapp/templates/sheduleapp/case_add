@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Добавление дела
+{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1> Добавление дела</h1>
+    <h3> {{ message }} </h3>
+    <div class="add_judge">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div id="custom-event-container" style="display: none;">
+                {{ form.custom_event }}
+            </div>
+
+            <input type="submit" class="btn btn-success" value="Добавить">
+        </form>
+    </div>
+</div>
+
+<script>
+    // Функция для переключения видимости поля custom_event
+    function toggleCustomEvent(select) {
+        const customEventField = document.getElementById('custom-event-container');
+        if (select.value === 'Иное') {
+            customEventField.style.display = 'block';
+        } else {
+            customEventField.style.display = 'none';
+        }
+    }
+
+    // Скрыть поле custom_event при загрузке страницы
+    window.onload = function () {
+        document.getElementById('custom-event-container').style.display = 'none';
+    };
+
+    // Обработчик события change для select элемента
+    document.getElementById('id_event').addEventListener('change', function(event) {
+        toggleCustomEvent(event.target);
+    });
+
+    // Скрыть поле custom_event при загрузке страницы
+    window.onload = function () {
+        document.getElementById('custom-event-container').style.display = 'none';
+    };
+
+    // Обработчик события change для select элемента
+    document.getElementById('id_event').addEventListener('change', function(event) {
+        toggleCustomEvent(event.target);
+    });
+</script>
+
+{% endblock %}
