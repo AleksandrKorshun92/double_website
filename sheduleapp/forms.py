@@ -105,9 +105,9 @@ class CaseForm(forms.ModelForm):
                 ('Подать Судебные расходы', 'Судебные расходы'),
                 ('Иное', 'Иное')
             ], attrs={'onchange': 'toggleCustomEvent(this)', 'id': 'id_event'}),  # добавляем обработчик события change),
-            'event_date': forms.DateTime(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Напишите дату и время события'}),
+            'event_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Напишите дату и время события'}),
            'court_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Напишите дату и время судебного заседания'}),
-            'target_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Напишите контрольную дату'}),
+            'target_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Напишите контрольную дату'}),
             'description_case': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Напишите короткую информацию и план по делу'}),
             'case_activ': forms.Select(choices=[('Активное', 'Активное'), ('Архив', 'Архив')])
         }
