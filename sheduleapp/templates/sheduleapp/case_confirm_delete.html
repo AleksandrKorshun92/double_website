@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+Удаление дела
+{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1> Удаление дела</h1></b>
+    <h2>Вы уверены, что хотите удалить дело №{{ case.number }}?</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Да, удалить">
+        <a href="{% url 'home' %}">Отмена</a>
+    </form>
+</div>
+
+
+{% endblock %}
