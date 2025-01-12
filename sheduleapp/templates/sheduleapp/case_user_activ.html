@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}
+Мои дела
+{% endblock %}
+
+{% block content %}
+<div class="body_home">
+    <h2> Дела {{ user.username }}  </h2>
+
+    {% if cases_today %}
+    <ul>
+        <h5> Сделать {{ today }}  </h5>
+        {% for case in cases_today %}
+            <li class='margin-btn'><a href="{% url 'case_detail' case.number %}">
+                <button type="button" class="btn btn-primary custom-small-btn">
+                    <i class="bi bi-briefcase"></i>  
+                {{ case.number }} - {{ case.event}}
+            </button></a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if cases_tomorrow %}
+    <ul>
+        <h5> Сделать {{ tomorrow }}  </h5>
+        {% for case in cases_tomorrow %}
+            <li class='margin-btn'><a href="{% url 'case_detail' case.number %}">
+                <button type="button" class="btn btn-primary custom-small-btn">
+                    <i class="bi bi-briefcase"></i>  
+                {{ case.number }} - {{ case.event}}
+            </button></a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if cases_day_after_tomorrow %}
+    <ul>
+        <h5> Сделать {{ day_after_tomorrow }}  </h5>
+        {% for case in cases_day_after_tomorrow %}
+            <li class='margin-btn'><a href="{% url 'case_detail' case.number %}">
+                <button type="button" class="btn btn-primary custom-small-btn">
+                    <i class="bi bi-briefcase"></i>  
+                {{ case.number }} - {{ case.event}}
+            </button></a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if not cases_tomorrow and not cases_day_after_tomorrow and not cases_today %}
+    <p>Ближайшее время нет срочных дел</p>
+{% endif %}
+            <!--заменить как было - active_cases -->
+            <a href="{% url 'cases_table' %}">
+                <button type="button" class="btn btn-info">
+                    <i class="bi bi-calendar2-check"></i>  
+                    Все активные дела
+                </button>
+                </a>
+            <a href="{% url 'archive_cases' %}">
+                <button type="button" class="btn btn-secondary">
+                    <i class="bi bi-calendar-x"></i>  
+                    Архивные дела
+                </button>
+                </a>
+
+                <a href="{% url 'add_case' %}" class='button-judge'>
+                        <button type="button" class="btn btn-success">
+                    <i class="bi bi-plus-square-dotted"></i>  
+                    Добавить дело
+                </button>
+            </a> 
+            <br>
+        </div>
+
+
+{% endblock %}
