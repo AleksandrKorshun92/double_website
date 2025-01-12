@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+Дело {{ case.number }}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="body_home">
+
+    <h2> Дело {{ case.number }}  </h2>
+
+    <div class="horizontal-line"></div>
+
+    <p>Суд - <td> {% if case.url_case %}
+        <a href="{{ case.url_case }}">{{ case.court }}</a>
+        {% else %}
+            {{ case.court }}
+        {% endif %}</td></p>
+    <p>Контрольная дата - {{ case.target_date }} </p>
+    <p>Предмет спора - {{ case.item_case }} </p>
+    <p>Заказчик - {{ case.costumer }} (статус - {{ case.costumer_status }})</p>
+    <p>Другая сторона - {{ case.other_costumer }}</p>
+    <p>Сделать - {{ case.event }} в срок до {{ case.event_date }}</p>
+    {% if case.court_date %}
+    <p> Дата судебного заседания - {{ case.court_date }}</p>
+    {% endif %}
+    <p>Описание: {{ case.description_case|linebreaksbr }}</p>
+    <p>Статус дела - {{ case.case_activ }}</p>
+
+    {% if case.case_activ == 'Активное' %}
+        <a href="{% url 'cases_table' %}">
+        {% else %}
+        <a href="{% url 'archive_cases' %}">   
+    {% endif %}               
+        <button type="button" class="btn btn-primary">
+        <i class="bi bi-arrow-left-circle"></i> 
+        Вернуться к списку дел </button> </a>
+    
+    <!-- Кнопка для удаления дела -->
+    <form action="{% url 'delete_case' case.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-exclamation-triangle"></i> 
+            Удалить дело</button>
+    </form>
+    
+    <!-- Ссылка для перехода к изменению данных дела -->
+    <a href="{% url 'edit_case' case.pk %}">
+        <button type="button" class="btn btn-success">
+            <i class="bi bi-arrow-repeat"></i>  
+            Изменить данные по делу
+        </button>
+    </a>
+</div>
+
+{% endblock %}
+
