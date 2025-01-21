@@ -30,22 +30,48 @@ def login_view(request):
     return render(request, 'registration/login.html')
 
 # регистрация пользователя
+
 def register(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            # user.set_password(user.cleaned_data['password'])
-            user.save()
-            birth_date = form.cleaned_data['birth_date']
-            bio =  form.cleaned_data['bio']
-            profile = Profile.objects.create(user=user, birthday=birth_date,
-                                             bio=bio)
-            profile.save()
-            return redirect('login')  # Перенаправление пользователю на страницу входа
+            user = form.save()
+            user.refresh_from_db()  
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.email, password=raw_password)
+            if user is not None:  # Проверяем, что аутентификация прошла успешно
+                login(request, user)  # Входим в систему
+                mail_subject = 'Регистрация на сайте - успешна!'  # Заголовок письма
+                message = (f"Привет, {form.cleaned_data['first_name']}!\n"
+                            f"Благодарим за регистрацию на сайте.\n"
+                            f"Ваши данные:\n"
+                            f"- почта {form.cleaned_data['email']},\n"
+                            f"- пароль {form.cleaned_data.get('password1')}")
+                to_email = form.cleaned_data.get('email')  # Получатель письма
+                
+                try:
+                    send_mail(
+                        subject=mail_subject,  # Заголовок письма
+                        message=message,  # Сообщение
+                        from_email=settings.EMAIL_HOST_USER,  # От кого отправляется письмо
+                        recipient_list=[to_email],  # Список получателей
+                        fail_silently=False  # Показывать исключения
+                    )
+                    
+                    messages.success(request, f'Письмо успешно отправлено на {to_email}.')
+                    logger.info(f'Письмо успешно отправлено на {to_email}.')
+                except Exception as e:
+                    messages.error(request, f'Не удалось отправить письмо: {e}')
+                    logger.error(f'Не удалось отправить письмо: {e}')
+                
+                return redirect('home')
+            else:
+                # Обработка случая, когда аутентификация не удалась
+                form.add_error(None, 'Ошибка аутентификации. Пожалуйста, проверьте введенные данные.')
     else:
-        form = UserRegistrationForm()
-    return render(request, 'registration/register.html', {'user_form': form})
+        form = RegistrationForm()
+    return render(request, 'registration/register.html', {'form': form})
+  
 
 # открытие профиля пользователя после входа
 @login_required
