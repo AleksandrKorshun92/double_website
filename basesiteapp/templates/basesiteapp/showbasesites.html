@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+Основыне сайты
+{% endblock %}
+
+{% block content %}
+<div class="body_home">
+    <h1>Список основных сайтов для юриста</h1>
+    
+            {% for site in sites %}
+            <p  class='event-btn'><a href="{{ site.url_sites }}"> {{ site.title }} </a></p>
+        
+            {% endfor %}
+
+</div>
+{% endblock %}
