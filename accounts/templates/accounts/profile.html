@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+<div class="body_home">
+ <div class="container mt-5">
+        <h1> Профиль - {{ user.username }} </h1>
+        <p><strong>Имя:</strong> {{ user.first_name }}</p>
+        <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Дата рождения:</strong> {{ user.date_of_birth }}</p>
+
+        <form method="post" action="{% url 'logout' %} ">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger"> <i class="bi bi-save"></i>
+         Выйти</button>
+</form>
+    </div>
+</div>
+{% endblock %}
