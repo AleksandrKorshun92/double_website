@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 from django.conf.global_settings import LOGIN_REDIRECT_URL
 from django.urls import reverse_lazy
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sheduleapp',
+    'basesiteapp',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -91,12 +94,25 @@ WSGI_APPLICATION = 'shedule.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# TODO база данных на удаленном сервисе (для локального варианта ниже)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgres://name:pasword@adress:5432/name_db',
+        conn_max_age=600,
+    )
 }
+
+#TODO тут все на локальном работало
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('DB_NAME', 'blocnot2'),
+#         'HOST': os.environ.get('DB_HOST', 'localhost'),
+#         'PORT': os.environ.get('DB_PORT', '5432'),
+#         'USER': os.environ.get('DB_USER', 'postgres'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD', 'pass'),
+#     },
+# }
 
 
 # Password validation
@@ -144,4 +160,36 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Добавил свою модель пользователя
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# Добавил данные для отправления писем после регистрации и смены пароля
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru' 
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'your@yandex.ru' # Адрес электронной почты, с которого будут отправляться письма
+EMAIL_HOST_PASSWORD = 'xxxxxxxxxx' # Для некоторых почтовых ящиков требуетсяспециальный пароль для приложений
+DEFAULT_FROM_EMAIL = 'your@yandex.ru'  # Адрес, с которого отправляются письма
+SERVER_EMAIL = 'your@yandex.ru'  # Адрес для системных сообщений
+DEFAULT_TO_EMAIL = 'your@yandex.ru' 
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Можно изменить на DEBUG для более подробной информации
+        },
+    },
+}
 
